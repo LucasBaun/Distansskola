@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <html lang="en" dir="ltr">
+    <title>Distans-plugg</title>
+    <link rel="icon" href="https://image.flaticon.com/icons/svg/991/991885.svg">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+2&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/137e557fa4.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="camerapos">
+      <h1 id="text">"Distansskolan"</h1>
+      <div id="container">
+        <video autoplay="true" id="videoElement">
+        </video>
+          <i class="far fa-play-circle fa-10x" onclick="startCameraStream()" id="camera0"></i>
+          <i class="far fa-window-close fa-5x" onclick="stopCameraStream()" id="camera1" style="top:0px;"></i>
+      </div>
+    </div>
+
+<!-- Live Chat -->
+    <div id="live-chat">
+		<header class="clearfix">
+			<h4>Mehmet Mert</h4>
+			<span class="chat-message-counter">3</span>
+		</header>
+		<div class="chat">
+			<div class="chat-history">
+				<div class="chat-message clearfix">
+					<div class="chat-message-content clearfix">
+						<span class="chat-time">13:35</span>
+						<h5>John Doe</h5>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, explicabo quasi ratione odio dolorum harum.</p>
+					</div> <!-- end chat-message-content -->
+				</div> <!-- end chat-message -->
+				<hr>
+				<div class="chat-message clearfix">
+					<div class="chat-message-content clearfix">
+						<span class="chat-time">13:37</span>
+						<h5>Marco Biedermann</h5>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, nulla accusamus magni vel debitis numquam qui tempora rem voluptatem delectus!</p>
+					</div> <!-- end chat-message-content -->
+				</div> <!-- end chat-message -->
+				<hr>
+				<div class="chat-message clearfix">
+					<div class="chat-message-content clearfix">
+						<span class="chat-time">13:38</span>
+						<h5>John Doe</h5>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+					</div> <!-- end chat-message-content -->
+				</div> <!-- end chat-message -->
+				<hr>
+			</div> <!-- end chat-history -->
+			<form action="#" method="post">
+				<fieldset>
+					<input type="text" placeholder="Mesajınızı Yazın" autofocus>
+					<input type="hidden">
+				</fieldset>
+			</form>
+		</div> <!-- end chat -->
+	</div> <!-- end live-chat -->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script>
+      var video = document.querySelector("#videoElement");
+      document.getElementById("camera0").style.color = "#90ee90";
+      document.getElementById("camera1").style.right = "5px";
+      document.getElementById("videoElement").style.transform = "rotateY(180deg)";
+      setTimeout(function(){ alert("För att starta ditt videosamtal klicka på play-knappen i gråa rutan och godkänn kameran. För att avsluta ett samtal klickar du på röda 'X' i höger hörn på din video"); }, 500);
+
+
+
+      function startCameraStream() {
+      if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+          video.srcObject = stream;
+          var random= Math.floor(Math.random() * 6) + 0;
+          var bigSize = ["url('https://i.imgur.com/Yratisf.gif?noredirect')",
+          "url('https://thumbs.gfycat.com/RapidMadeupCockerspaniel-size_restricted.gif')",
+          "url('https://thumbs.gfycat.com/LiveLastingBull-size_restricted.gif')",
+          "url('https://ak2.picdn.net/shutterstock/videos/8161192/thumb/1.jpg')",
+          "url('https://ak7.picdn.net/shutterstock/videos/8517097/thumb/1.jpg')",
+          "url('https://i.pinimg.com/originals/2c/c3/ef/2cc3ef2db92b448ceec8908a1fd1082f.gif')"];
+          document.getElementById("camerapos").style.backgroundImage = bigSize[random];
+          document.getElementById("camera1").style.color = "#FF3232";
+          document.getElementById("camera0").style.display = "none";
+          document.getElementById("camera1").style.display = "inline";
+          document.getElementById("text").style.display = "none";
+
+
+        })
+        .catch(function (err0r) {
+          console.log("Something went wrong!");
+        });
+      }}
+
+
+
+      function stopCameraStream() {
+          var stream = video.srcObject;
+          var tracks = stream.getTracks();
+
+          for (var i = 0; i < tracks.length; i++) {
+            var track = tracks[i];
+            track.stop();
+            document.getElementById("camera1").style.display = "none";
+            document.getElementById("camera0").style.display = "inline";
+            document.getElementById("text").style.display = "inline";
+            document.getElementById("camerapos").style.backgroundImage = "url('https://wallpapercave.com/wp/wp2757874.gif')";
+          }
+          video.srcObject = null;
+      }
+
+
+      (function() {
+
+      	$('#live-chat header').on('click', function() {
+
+      		$('.chat').slideToggle(300, 'swing');
+      		$('.chat-message-counter').fadeToggle(300, 'swing');
+
+      	});
+
+      	$('.chat-close').on('click', function(e) {
+
+      		e.preventDefault();
+      		$('#live-chat').fadeOut(300);
+
+      	});
+
+      }) ();
+    </script>
+  </body>
+</html>
